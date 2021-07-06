@@ -5,12 +5,29 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(CalendarTrackerApp2());
 
-class MyApp extends StatelessWidget {
+class CalendarTrackerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(title: 'Startup Name Generator', home: RandomWords());
+    return MaterialApp(
+        title: 'Calendar Tracker',
+        theme: ThemeData(primaryColor: Colors.black),
+        home: Calendar());
+  }
+}
+
+class Calendar extends StatefulWidget {}
+
+class CalendarTrackerApp2 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        title: 'Startup Name Generator',
+        theme: ThemeData(
+          primaryColor: Colors.green.shade700,
+        ),
+        home: RandomWords());
   }
 }
 
