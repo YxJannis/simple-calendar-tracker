@@ -32,7 +32,13 @@ class _CalendarState extends State<Calendar> {
 
   Map<DateTime, bool> _daysColored = {};
 
-  setDayColored(DateTime day) {
+  Color _transparentColor = Colors.transparent;
+  Color _focusedDayColor = Colors.lightBlue;
+
+  Color _firstColor = Colors.green;
+  Color _secondColor = Colors.red;
+
+  _setDayColored(DateTime day) {
     if (_daysColored[day] == true) {
       _daysColored[day] = false;
     } else {
@@ -40,7 +46,7 @@ class _CalendarState extends State<Calendar> {
     }
   }
 
-  getDayColored(day) {
+  _getDayColored(day) {
     if (_daysColored[day] != null) {
       return _daysColored[day];
     } else {
@@ -48,7 +54,7 @@ class _CalendarState extends State<Calendar> {
     }
   }
 
-  Container _getEvent(day, colorWhite) {
+  Center _getDayColorTile(day, color) {
     DateFormat _dateFormat;
     if (day.day < 10) {
       _dateFormat = DateFormat('d');
@@ -56,19 +62,12 @@ class _CalendarState extends State<Calendar> {
       _dateFormat = DateFormat('dd');
     }
 
-    if (colorWhite) {
-      return Container(
-        color: Colors.transparent,
-        child: new Text(_dateFormat.format(day)),
-        alignment: Alignment(0.0, 0.0),
-      );
-    } else {
-      return Container(
-        color: Colors.green,
-        child: new Text(_dateFormat.format(day)),
-        alignment: Alignment(0.0, 0.0),
-      );
-    }
+    return Center(
+        child: Container(
+      color: color,
+      child: new Text(_dateFormat.format(day)),
+      alignment: Alignment(0.0, 0.0),
+    ));
   }
 
   @override
@@ -110,16 +109,31 @@ class _CalendarState extends State<Calendar> {
                 }
               },
               defaultBuilder: (context, day, focusedDay) {
-                if (getDayColored(day)) {
-                  return Center(child: _getEvent(day, false));
+                if (_getDayColored(day)) {
+                  if (day == focusedDay) {
+                    return _getDayColorTile(day, _focusedDayColor);
+                  } else {
+                    return _getDayColorTile(day, _firstColor);
+                  }
                 }
               },
               selectedBuilder: (context, day, focusedDay) {
-                setDayColored(day);
-                if (getDayColored(day) == false) {
-                  return Center(child: _getEvent(day, true));
+                _setDayColored(day);
+                if (_getDayColored(day) == false) {
+                  if (day == focusedDay) {
+                    return _getDayColorTile(day, _focusedDayColor);
+                  } else {
+                    return _getDayColorTile(day, _transparentColor);
+                  }
                 } else {
-                  return Center(child: _getEvent(day, false));
+                  return _getDayColorTile(day, _firstColor);
+                }
+              },
+              todayBuilder: (context, day, focusedDay) {
+                if (_getDayColored(day)) {
+                  return _getDayColorTile(day, _firstColor);
+                } else {
+                  return _getDayColorTile(day, _focusedDayColor);
                 }
               },
             )));
