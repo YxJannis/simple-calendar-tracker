@@ -29,20 +29,46 @@ class Calendar extends StatefulWidget {
 class _CalendarState extends State<Calendar> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime? _selectedDay;
-  DateTime _focusedDay = DateTime.now();
 
-  Container _getEvent(DateTime day) {
+  Map<DateTime, bool> _daysColored = {};
+
+  setDayColored(DateTime day) {
+    if (_daysColored[day] == true) {
+      _daysColored[day] = false;
+    } else {
+      _daysColored[day] = true;
+    }
+  }
+
+  getDayColored(day) {
+    if (_daysColored[day] != null) {
+      return _daysColored[day];
+    } else {
+      return false;
+    }
+  }
+
+  Container _getEvent(day, colorWhite) {
     DateFormat _dateFormat;
     if (day.day < 10) {
       _dateFormat = DateFormat('d');
     } else {
       _dateFormat = DateFormat('dd');
     }
-    return Container(
-      color: Colors.green,
-      child: new Text(_dateFormat.format(day)),
-      alignment: Alignment(0.0, 0.0),
-    );
+
+    if (colorWhite) {
+      return Container(
+        color: Colors.transparent,
+        child: new Text(_dateFormat.format(day)),
+        alignment: Alignment(0.0, 0.0),
+      );
+    } else {
+      return Container(
+        color: Colors.green,
+        child: new Text(_dateFormat.format(day)),
+        alignment: Alignment(0.0, 0.0),
+      );
+    }
   }
 
   @override
@@ -58,8 +84,7 @@ class _CalendarState extends State<Calendar> {
             },
             onDaySelected: (selectedDay, focusedDay) {
               setState(() {
-                _selectedDay = selectedDay;
-                _focusedDay = focusedDay; // update `_focusedDay` here as well
+                _selectedDay = selectedDay; // update `_focusedDay` here as well
               });
             },
             calendarFormat: _calendarFormat,
@@ -72,22 +97,32 @@ class _CalendarState extends State<Calendar> {
             //   return _events;
             // },
             calendarBuilders: CalendarBuilders(
-                dowBuilder: (context, day) {
-                  if (day.weekday == DateTime.sunday) {
-                    final text = DateFormat.E().format(day);
+              dowBuilder: (context, day) {
+                if (day.weekday == DateTime.sunday) {
+                  final text = DateFormat.E().format(day);
 
-                    return Center(
-                      child: Text(
-                        text,
-                        style: TextStyle(color: Colors.red),
-                      ),
-                    );
-                  }
-                },
-                selectedBuilder: (context, day, focusedDay) {
-                  return Center(child: _getEvent(day));
-                },
-                markerBuilder: (context, day, events) {})));
+                  return Center(
+                    child: Text(
+                      text,
+                      style: TextStyle(color: Colors.red),
+                    ),
+                  );
+                }
+              },
+              defaultBuilder: (context, day, focusedDay) {
+                if (getDayColored(day)) {
+                  return Center(child: _getEvent(day, false));
+                }
+              },
+              selectedBuilder: (context, day, focusedDay) {
+                setDayColored(day);
+                if (getDayColored(day) == false) {
+                  return Center(child: _getEvent(day, true));
+                } else {
+                  return Center(child: _getEvent(day, false));
+                }
+              },
+            )));
   }
 }
 
