@@ -110,23 +110,19 @@ class _CalendarState extends State<Calendar> {
               },
               defaultBuilder: (context, day, focusedDay) {
                 if (_getDayColored(day)) {
-                  if (day == focusedDay) {
-                    return _getDayColorTile(day, _focusedDayColor);
-                  } else {
-                    return _getDayColorTile(day, _firstColor);
-                  }
+                  return _getDayColorTile(day, _firstColor);
                 }
               },
               selectedBuilder: (context, day, focusedDay) {
                 _setDayColored(day);
-                if (_getDayColored(day) == false) {
+                if (_getDayColored(day)) {
+                  return _getDayColorTile(day, _firstColor);
+                } else {
                   if (day == focusedDay) {
                     return _getDayColorTile(day, _focusedDayColor);
                   } else {
                     return _getDayColorTile(day, _transparentColor);
                   }
-                } else {
-                  return _getDayColorTile(day, _firstColor);
                 }
               },
               todayBuilder: (context, day, focusedDay) {
