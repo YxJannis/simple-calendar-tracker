@@ -31,33 +31,19 @@ class _CalendarState extends State<Calendar> {
   DateTime? _selectedDay;
   DateTime _focusedDay = DateTime.now();
 
-  Map<String, Container> _eventMap = {
-    "Green": Container(child: Text('Text'), color: Colors.green),
-    "Red": Container(
-        decoration:
-            BoxDecoration(shape: BoxShape.rectangle, color: Colors.red)),
-    "Yellow": Container(
-        decoration:
-            BoxDecoration(shape: BoxShape.rectangle, color: Colors.yellow)),
-    "Blue": Container(
-        decoration:
-            BoxDecoration(shape: BoxShape.rectangle, color: Colors.blue)),
-  };
-
-  List<Container> _events = [
-    Container(child: Text('Text'), color: Colors.green),
-    //decoration:
-    //  BoxDecoration(shape: BoxShape.rectangle, color: Colors.green)),
-    Container(
-        decoration:
-            BoxDecoration(shape: BoxShape.rectangle, color: Colors.red)),
-    Container(
-        decoration:
-            BoxDecoration(shape: BoxShape.rectangle, color: Colors.yellow)),
-    Container(
-        decoration:
-            BoxDecoration(shape: BoxShape.rectangle, color: Colors.blue)),
-  ];
+  Container _getEvent(DateTime day) {
+    DateFormat _dateFormat;
+    if (day.day < 10) {
+      _dateFormat = DateFormat('d');
+    } else {
+      _dateFormat = DateFormat('dd');
+    }
+    return Container(
+      color: Colors.green,
+      child: new Text(_dateFormat.format(day)),
+      alignment: Alignment(0.0, 0.0),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +85,7 @@ class _CalendarState extends State<Calendar> {
                   }
                 },
                 selectedBuilder: (context, day, focusedDay) {
-                  return Center(child: _eventMap['Red']);
+                  return Center(child: _getEvent(day));
                 },
                 markerBuilder: (context, day, events) {})));
   }
