@@ -5,6 +5,7 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:intl/intl.dart';
 
 void main() => runApp(CalendarTrackerApp());
 
@@ -35,25 +36,40 @@ class _CalendarState extends State<Calendar> {
     return Scaffold(
         appBar: AppBar(title: const Text('Calendar Tracker')),
         body: TableCalendar(
-          firstDay: DateTime.utc(2010, 1, 1),
-          lastDay: DateTime.utc(2030, 1, 31),
-          focusedDay: DateTime.now(),
-          selectedDayPredicate: (day) {
-            return isSameDay(_selectedDay, day);
-          },
-          onDaySelected: (selectedDay, focusedDay) {
-            setState(() {
-              _selectedDay = selectedDay;
-              _focusedDay = focusedDay; // update `_focusedDay` here as well
-            });
-          },
-          calendarFormat: _calendarFormat,
-          onFormatChanged: (format) {
-            setState(() {
-              _calendarFormat = format;
-            });
-          },
-        ));
+            firstDay: DateTime.utc(2010, 1, 1),
+            lastDay: DateTime.utc(2030, 1, 31),
+            focusedDay: DateTime.now(),
+            selectedDayPredicate: (day) {
+              return isSameDay(_selectedDay, day);
+            },
+            onDaySelected: (selectedDay, focusedDay) {
+              setState(() {
+                _selectedDay = selectedDay;
+                _focusedDay = focusedDay; // update `_focusedDay` here as well
+              });
+            },
+            calendarFormat: _calendarFormat,
+            onFormatChanged: (format) {
+              setState(() {
+                _calendarFormat = format;
+              });
+            },
+            calendarBuilders: CalendarBuilders(dowBuilder: (context, day) {
+              if (day.weekday == DateTime.sunday) {
+                final text = DateFormat.E().format(day);
+
+                return Center(
+                  child: Text(
+                    text,
+                    style: TextStyle(color: Colors.red),
+                  ),
+                );
+              }
+            }, selectedBuilder: (context, day, focusedDay) {
+              return Container(
+                  decoration: BoxDecoration(
+                      shape: BoxShape.rectangle, color: Colors.green));
+            })));
   }
 }
 
