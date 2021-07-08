@@ -31,6 +31,34 @@ class _CalendarState extends State<Calendar> {
   DateTime? _selectedDay;
   DateTime _focusedDay = DateTime.now();
 
+  Map<String, Container> _eventMap = {
+    "Green": Container(child: Text('Text'), color: Colors.green),
+    "Red": Container(
+        decoration:
+            BoxDecoration(shape: BoxShape.rectangle, color: Colors.red)),
+    "Yellow": Container(
+        decoration:
+            BoxDecoration(shape: BoxShape.rectangle, color: Colors.yellow)),
+    "Blue": Container(
+        decoration:
+            BoxDecoration(shape: BoxShape.rectangle, color: Colors.blue)),
+  };
+
+  List<Container> _events = [
+    Container(child: Text('Text'), color: Colors.green),
+    //decoration:
+    //  BoxDecoration(shape: BoxShape.rectangle, color: Colors.green)),
+    Container(
+        decoration:
+            BoxDecoration(shape: BoxShape.rectangle, color: Colors.red)),
+    Container(
+        decoration:
+            BoxDecoration(shape: BoxShape.rectangle, color: Colors.yellow)),
+    Container(
+        decoration:
+            BoxDecoration(shape: BoxShape.rectangle, color: Colors.blue)),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,22 +82,26 @@ class _CalendarState extends State<Calendar> {
                 _calendarFormat = format;
               });
             },
-            calendarBuilders: CalendarBuilders(dowBuilder: (context, day) {
-              if (day.weekday == DateTime.sunday) {
-                final text = DateFormat.E().format(day);
+            // eventLoader: (day) {
+            //   return _events;
+            // },
+            calendarBuilders: CalendarBuilders(
+                dowBuilder: (context, day) {
+                  if (day.weekday == DateTime.sunday) {
+                    final text = DateFormat.E().format(day);
 
-                return Center(
-                  child: Text(
-                    text,
-                    style: TextStyle(color: Colors.red),
-                  ),
-                );
-              }
-            }, selectedBuilder: (context, day, focusedDay) {
-              return Container(
-                  decoration: BoxDecoration(
-                      shape: BoxShape.rectangle, color: Colors.green));
-            })));
+                    return Center(
+                      child: Text(
+                        text,
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    );
+                  }
+                },
+                selectedBuilder: (context, day, focusedDay) {
+                  return Center(child: _eventMap['Red']);
+                },
+                markerBuilder: (context, day, events) {})));
   }
 }
 
