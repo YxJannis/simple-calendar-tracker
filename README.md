@@ -1,16 +1,21 @@
-# simple_calendar_tracker
 
-A new Flutter project.
+# Minimalist Calendar Tracker
 
-## Getting Started
+Calendar widget to track accomplishments. A tap on a day changes its color to to mark your accomplishment for this specific day. No bloating or unneccessary features. Just colors :)
 
-This project is a starting point for a Flutter application.
+Created with Flutter for Android, iOs and web. Although testing is currently only performed on Android devices.
 
-A few resources to get you started if this is your first Flutter project:
+This is very much still a work-in-progress, although the first release will have sufficient basic functionality. 
+## Acknowledgements
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+ - [Flutter.dev](https://flutter.dev/)
+ - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
+ - [Table Calendar Widget](https://pub.dev/packages/table_calendar)
+ - [Readme Creator](https://readme.so/editor)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+  
+## Roadmap
+
+- Add up to 3 colors to track more than one accomplishment. Tile of day in calender then shows all colors using horizontal color bars.
+
+- Add legend with *color - "description"* for each color.
