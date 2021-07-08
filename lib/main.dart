@@ -77,6 +77,8 @@ class _CalendarState extends State<Calendar> {
             firstDay: DateTime.utc(2010, 1, 1),
             lastDay: DateTime.utc(2030, 1, 31),
             focusedDay: DateTime.now(),
+            pageJumpingEnabled: true,
+            startingDayOfWeek: StartingDayOfWeek.monday,
             selectedDayPredicate: (day) {
               return isSameDay(_selectedDay, day);
             },
@@ -85,15 +87,10 @@ class _CalendarState extends State<Calendar> {
                 _selectedDay = selectedDay; // update `_focusedDay` here as well
               });
             },
-            calendarFormat: _calendarFormat,
-            onFormatChanged: (format) {
-              setState(() {
-                _calendarFormat = format;
-              });
+            availableCalendarFormats: const {
+              CalendarFormat.month: 'Month',
             },
-            // eventLoader: (day) {
-            //   return _events;
-            // },
+            calendarFormat: _calendarFormat,
             calendarBuilders: CalendarBuilders(
               dowBuilder: (context, day) {
                 if (day.weekday == DateTime.sunday) {
@@ -113,6 +110,10 @@ class _CalendarState extends State<Calendar> {
                 }
               },
               selectedBuilder: (context, day, focusedDay) {
+                if (day.month != focusedDay.month) {
+                  return _getDayColorTile(day, _transparentColor);
+                }
+
                 _setDayColored(day);
                 if (_getDayColored(day)) {
                   return _getDayColorTile(day, _firstColor);
