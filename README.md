@@ -19,3 +19,5 @@ This is very much still a work-in-progress, although the first release will have
 - Add up to 3 colors to track more than one accomplishment. Tile of day in calender then shows all colors using horizontal color bars.
 
 - Add legend with *color - "description"* for each color.
+
+- Add Streak visualization
