@@ -29,6 +29,11 @@ class Calendar extends StatefulWidget {
 class _CalendarState extends State<Calendar> {
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime? _selectedDay;
+  final prefs = SharedPreferences.getInstance();
+
+  //TODO: instead of Map daysColored, use SharedPref. to save
+  // key-value pair: "Date" : true, and delete pair if set to false.
+  // in defaultBuilder, iterate over sharedPrefs to color days initially
 
   Map<DateTime, bool> _daysColored = {};
 
