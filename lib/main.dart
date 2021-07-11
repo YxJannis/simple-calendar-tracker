@@ -77,14 +77,14 @@ class _CalendarState extends State<Calendar> {
             firstDay: DateTime.utc(2010, 1, 1),
             lastDay: DateTime.utc(2030, 1, 31),
             focusedDay: DateTime.now(),
-            pageJumpingEnabled: true,
+            pageJumpingEnabled: false,
             startingDayOfWeek: StartingDayOfWeek.monday,
             selectedDayPredicate: (day) {
               return isSameDay(_selectedDay, day);
             },
             onDaySelected: (selectedDay, focusedDay) {
               setState(() {
-                _selectedDay = selectedDay; // update `_focusedDay` here as well
+                _selectedDay = selectedDay;
               });
             },
             availableCalendarFormats: const {
